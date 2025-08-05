@@ -1,106 +1,104 @@
 import React, { useState } from "react";
+import "./RegistrationForm.css";
 import { db } from "../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
-import "./RegistrationForm.css"; // stylizuj podle potřeby
 
 export default function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    regNumber: "",
-    name: "",
-    contact: "",
-    company: "",
-    deliveryTo: "",
-  });
-
+  const [regNumber, setRegNumber] = useState("");
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [company, setCompany] = useState("");
+  const [deliveryTo, setDeliveryTo] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!regNumber || !name || !contact || !company || !deliveryTo) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    setSubmitting(true);
+
     try {
       await addDoc(collection(db, "registrations"), {
-        ...formData,
+        regNumber,
+        name,
+        contact,
+        company,
+        deliveryTo,
         timeIn: Timestamp.now(),
-        timeOut: "", // nebo null – vyplníš později
       });
 
       setSubmitted(true);
-      setFormData({
-        regNumber: "",
-        name: "",
-        contact: "",
-        company: "",
-        deliveryTo: "",
-      });
-    } catch (err) {
-      console.error("Error saving registration: ", err);
+
+      // Reset form
+      setRegNumber("");
+      setName("");
+      setContact("");
+      setCompany("");
+      setDeliveryTo("");
+
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error submitting registration:", error);
+      alert("There was an error. Please try again.");
     }
+
+    setSubmitting(false);
   };
 
-  if (submitted) {
-    return (
-      <div className="confirmation">
-        <h2>Thank you!</h2>
-        <p>Registration submitted successfully.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="form-wrapper">
+    <div className="registration-form">
       <h2>Westgate Oxford - Service Yard B</h2>
       <p>Out of hours access: Please call Control Room 01865 263699</p>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="regNumber"
-          placeholder="Registration number"
-          value={formData.regNumber}
-          onChange={handleChange}
-          required
+          placeholder="Vehicle Reg. Number"
+          value={regNumber}
+          onChange={(e) => setRegNumber(e.target.value)}
         />
         <input
           type="text"
-          name="name"
-          placeholder="Driver's name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="tel"
-          name="contact"
-          placeholder="Contact number"
-          value={formData.contact}
-          onChange={handleChange}
-          required
+          placeholder="Driver's Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
-          name="company"
-          placeholder="Company"
-          value={formData.company}
-          onChange={handleChange}
-          required
+          placeholder="Contact Number"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
         />
         <input
           type="text"
-          name="deliveryTo"
-          placeholder="Delivery to"
-          value={formData.deliveryTo}
-          onChange={handleChange}
-          required
+          placeholder="Company Name"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Delivery To"
+          value={deliveryTo}
+          onChange={(e) => setDeliveryTo(e.target.value)}
         />
 
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Submitting..." : "Submit"}
+        </button>
       </form>
+
+      {submitted && (
+        <p style={{ textAlign: "center", color: "#87cefa", marginTop: "1rem" }}>
+          ✅ Registration submitted successfully.
+        </p>
+      )}
     </div>
   );
 }
