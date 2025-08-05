@@ -4,41 +4,19 @@ import Register from "./components/Register";
 import AdminLogin from "./components/AdminLogin";
 
 function App() {
-  const [mode, setMode] = useState("visitor");
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const toggleMode = () => {
+    setIsAdmin((prev) => !prev);
+  };
 
   return (
-    <div>
-      <div style={{ textAlign: "center", margin: "2rem" }}>
-        <button
-          onClick={() => setMode("visitor")}
-          style={{
-            marginRight: "1rem",
-            padding: "0.5rem 1rem",
-            backgroundColor: mode === "visitor" ? "#007bff" : "#ccc",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          Visitor
-        </button>
-        <button
-          onClick={() => setMode("admin")}
-          style={{
-            padding: "0.5rem 1rem",
-            backgroundColor: mode === "admin" ? "#007bff" : "#ccc",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          Admin
-        </button>
-      </div>
+    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <button onClick={toggleMode} style={{ marginBottom: "1rem" }}>
+        {isAdmin ? "Přepnout na registraci" : "Přepnout na přihlášení admina"}
+      </button>
 
-      {mode === "visitor" ? <Register /> : <AdminLogin />}
+      {isAdmin ? <AdminLogin /> : <Register />}
     </div>
   );
 }
