@@ -1,22 +1,25 @@
-// src/App.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Register from "./components/Register";
 import AdminLogin from "./components/AdminLogin";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminView, setIsAdminView] = useState(false);
 
-  const toggleMode = () => {
-    setIsAdmin((prev) => !prev);
-  };
+  // Volitelně: přepnutí podle URL parametru
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("admin") === "true") {
+      setIsAdminView(true);
+    }
+  }, []);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <button onClick={toggleMode} style={{ marginBottom: "1rem" }}>
-        {isAdmin ? "Přepnout na registraci" : "Přepnout na přihlášení admina"}
+    <div style={{ textAlign: "center", padding: "1rem" }}>
+      <button onClick={() => setIsAdminView(!isAdminView)} style={{ marginBottom: "1rem" }}>
+        {isAdminView ? "Switch to Registration" : "Switch to Admin Login"}
       </button>
 
-      {isAdmin ? <AdminLogin /> : <Register />}
+      {isAdminView ? <AdminLogin /> : <Register />}
     </div>
   );
 }
