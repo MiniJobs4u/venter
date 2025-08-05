@@ -1,58 +1,106 @@
 import React, { useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import "./RegistrationForm.css"; // stylizuj podle potřeby
 
-const RegistrationForm = () => {
+export default function RegistrationForm() {
   const [formData, setFormData] = useState({
     regNumber: "",
-    driverName: "",
+    name: "",
     contact: "",
     company: "",
-    reason: "",
-    deliveryTo: ""
+    deliveryTo: "",
   });
 
+  const [submitted, setSubmitted] = useState(false);
+
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       await addDoc(collection(db, "registrations"), {
         ...formData,
-        timeIn: serverTimestamp(),
-        timeOut: null
+        timeIn: Timestamp.now(),
+        timeOut: "", // nebo null – vyplníš později
       });
-      alert("Registration submitted!");
+
+      setSubmitted(true);
       setFormData({
         regNumber: "",
-        driverName: "",
+        name: "",
         contact: "",
         company: "",
-        reason: "",
-        deliveryTo: ""
+        deliveryTo: "",
       });
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    } catch (err) {
+      console.error("Error saving registration: ", err);
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "0 auto" }}>
-      <h2>Register Entry</h2>
-      <input name="regNumber" placeholder="Vehicle registration" value={formData.regNumber} onChange={handleChange} required />
-      <input name="driverName" placeholder="Driver’s name" value={formData.driverName} onChange={handleChange} required />
-      <input name="contact" placeholder="Contact number" value={formData.contact} onChange={handleChange} required />
-      <input name="company" placeholder="Company name" value={formData.company} onChange={handleChange} required />
-      <input name="reason" placeholder="Reason for visit" value={formData.reason} onChange={handleChange} required />
-      <input name="deliveryTo" placeholder="Delivery to" value={formData.deliveryTo} onChange={handleChange} required />
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
+  if (submitted) {
+    return (
+      <div className="confirmation">
+        <h2>Thank you!</h2>
+        <p>Registration submitted successfully.</p>
+      </div>
+    );
+  }
 
-export default RegistrationForm;
+  return (
+    <div className="form-wrapper">
+      <h2>Westgate Oxford - Service Yard B</h2>
+      <p>Out of hours access: Please call Control Room 01865 263699</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="regNumber"
+          placeholder="Registration number"
+          value={formData.regNumber}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="name"
+          placeholder="Driver's name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="tel"
+          name="contact"
+          placeholder="Contact number"
+          value={formData.contact}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="company"
+          placeholder="Company"
+          value={formData.company}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="deliveryTo"
+          placeholder="Delivery to"
+          value={formData.deliveryTo}
+          onChange={handleChange}
+          required
+        />
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+}
