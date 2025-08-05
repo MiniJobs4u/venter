@@ -4,8 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import "../App.css";
-
+import "../../App.css";
 export default function AdminPanel() {
   const [registrations, setRegistrations] = useState([]);
   const [startDate, setStartDate] = useState("");
