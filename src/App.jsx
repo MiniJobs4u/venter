@@ -1,9 +1,8 @@
 import React from "react";
-import AdminPanel from "./components/AdminPanel";
+import AdminLogin from "./components/AdminLogin";
 
 function App() {
-  return <AdminPanel />;
+  return <AdminLogin />;
 }
 
 export default App;
-
