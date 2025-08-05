@@ -1,28 +1,29 @@
 // src/components/AdminLogin.jsx
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import AdminPanel from "./AdminPanel";
+import AdminPanel from "./AdminPanel"; // ← cesta opravena na ./AdminPanel
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
-
+    const auth = getAuth();
     try {
-      const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
-      setLoggedIn(true);
+      setIsLoggedIn(true);
     } catch (err) {
-      setError("Invalid login credentials.");
+      console.error("Login error:", err);
+      setError("Invalid credentials");
     }
   };
 
-  if (loggedIn) return <AdminPanel />;
+  if (isLoggedIn) {
+    return <AdminPanel />;
+  }
 
   return (
     <div style={{ padding: "2rem", maxWidth: "400px", margin: "0 auto" }}>
@@ -30,11 +31,11 @@ export default function AdminLogin() {
       <form onSubmit={handleLogin}>
         <input
           type="email"
-          placeholder="Admin Email"
+          placeholder="Admin email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={{ display: "block", marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+          style={{ display: "block", marginBottom: "1rem", width: "100%" }}
         />
         <input
           type="password"
@@ -42,10 +43,10 @@ export default function AdminLogin() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ display: "block", marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+          style={{ display: "block", marginBottom: "1rem", width: "100%" }}
         />
+        <button type="submit">Login</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>Login</button>
       </form>
     </div>
   );
