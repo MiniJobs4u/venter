@@ -1,8 +1,7 @@
 // src/components/AdminLogin.jsx
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import AdminPanel from "./AdminPanel"; // ← cesta opravena na ./AdminPanel
-
+import AdminPanel from "../AdminPanel";
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
