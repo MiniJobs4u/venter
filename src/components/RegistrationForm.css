@@ -1,78 +1,78 @@
-/* Tmavě modré pozadí a centrální panel */
-.form-wrapper {
-  background-color: #001627;
-  color: #ffffff;
-  max-width: 500px;
-  margin: 3rem auto;
-  padding: 2rem 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  text-align: center;
+/* RegistrationForm.css */
+
+body {
+  margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #010d1a; /* Tmavé modré pozadí */
+  color: white;
 }
 
-/* Nadpis a text */
-.form-wrapper h2 {
-  font-size: 1.8rem;
-  margin-bottom: 0.8rem;
-  color: #ffffff;
+.registration-form {
+  background-color: #011529; /* Tmavší modrá pro box */
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.form-wrapper p {
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
-  color: #ccc;
-}
-
-/* Inputy */
-.form-wrapper input {
-  width: 100%;
-  padding: 0.6rem 0.9rem;
-  margin: 0.5rem 0;
-  border: none;
-  border-radius: 6px;
-  background-color: #e6f0ff;
-  font-size: 1rem;
-  color: #000;
-  outline: none;
-}
-
-/* Tlačítko */
-.form-wrapper button {
-  width: 100%;
-  padding: 0.7rem;
-  margin-top: 1rem;
-  background-color: #87cefa;
-  border: none;
-  border-radius: 6px;
-  color: #001627;
+.registration-form h2 {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: white;
   font-weight: bold;
-  font-size: 1rem;
+}
+
+.registration-form p {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #ddd;
+  line-height: 1.4;
+}
+
+.registration-form input {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #042e5f; /* Tmavě modré pole */
+  color: white;
+  font-size: 16px;
+}
+
+.registration-form input::placeholder {
+  color: #cbd6e2;
+}
+
+.registration-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2d9cdb; /* Světlejší modrá */
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.form-wrapper button:hover {
-  background-color: #5db3ec;
+.registration-form button:hover {
+  background-color: #1b7cb8;
 }
 
-/* Potvrzení po odeslání */
-.confirmation {
-  background-color: #001627;
-  color: #ffffff;
+.footer {
   text-align: center;
-  padding: 3rem;
-  border-radius: 12px;
-  max-width: 500px;
-  margin: 3rem auto;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #aaa;
 }
 
-.confirmation h2 {
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
-}
-
-.confirmation p {
-  font-size: 1rem;
-  color: #ccc;
+.footer img {
+  vertical-align: middle;
+  height: 24px;
+  margin-left: 5px;
 }
