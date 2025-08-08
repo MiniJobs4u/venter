@@ -105,21 +105,3 @@ export default function RegistrationForm() {
     </div>
   );
 }
-/* spodní link na admin login */
-.admin-entry{
-  margin-top: 28px;
-  display: flex;
-  justify-content: center;
-  opacity: .85;
-}
-.admin-link{
-  color: var(--accent);
-  text-decoration: none;
-  border: 1px solid var(--accent);
-  padding: 10px 16px;
-  border-radius: 10px;
-  background: transparent;
-}
-.admin-link:hover{
-  background: rgba(56,168,232,.12);
-}
