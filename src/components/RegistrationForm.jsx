@@ -1,6 +1,8 @@
+// src/components/RegistrationForm.jsx
+import React, { useState } from "react";
 import { db } from "../firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-// ...
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import "./RegistrationForm.css";
 
 const initial = {
   vehicleReg: "",
@@ -16,12 +18,12 @@ export default function RegistrationForm() {
   const [ok, setOk] = useState(false);
   const [err, setErr] = useState("");
 
-  const handleChange = (e) => {
+  const onChange = (e) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
     setErr("");
@@ -32,61 +34,73 @@ export default function RegistrationForm() {
         contact: form.contact.trim(),
         company: form.company.trim(),
         deliveryTo: form.deliveryTo.trim(),
-        timeIn: serverTimestamp(), // ✅ klíčové pro řazení a zobrazení
+        timeIn: serverTimestamp(),
       });
       setForm(initial);
       setOk(true);
       setTimeout(() => setOk(false), 2500);
-    } catch (e) {
-      console.error(e);
-      setErr("Saving failed. Try again.");
+    } catch (error) {
+      console.error(error);
+      setErr("Saving failed. Please try again.");
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="reg-wrap">
-      {/* ...hlavička atd... */}
+    <div className="page">
+      <div className="logoBlock">
+        <div className="logoTop">WESTGATE</div>
+        <div className="logoSub">OXFORD</div>
+      </div>
 
-      <form className="reg-card" onSubmit={handleSubmit}>
-        {/* vstupy – VŠECHNY mají name= dle fieldů výše */}
+      <form className="card" onSubmit={onSubmit}>
+        <h1 className="title">Westgate Oxford - Service Yard B</h1>
+        <p className="subtitle">
+          Out of hours access: Please call Control Room 01865 263699
+        </p>
+
+        <label>Vehicle registration</label>
         <input
           name="vehicleReg"
           value={form.vehicleReg}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Vehicle registration"
           required
         />
 
+        <label>Driver’s name</label>
         <input
           name="name"
           value={form.name}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Driver's name"
           required
         />
 
+        <label>Contact number</label>
         <input
           name="contact"
           value={form.contact}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Contact number"
           required
         />
 
+        <label>Delivery to</label>
         <input
           name="company"
           value={form.company}
-          onChange={handleChange}
-          placeholder="Delivery to / Company name"
+          onChange={onChange}
+          placeholder="Delivery to"
           required
         />
 
+        <label>Reason for visit</label>
         <input
           name="deliveryTo"
           value={form.deliveryTo}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Reason for visit"
         />
 
@@ -98,9 +112,8 @@ export default function RegistrationForm() {
         {err && <div className="note err">{err}</div>}
       </form>
 
-      {/* ✅ Admin přístup dole */}
-      <div className="admin-entry">
-        <a className="admin-link" href="?admin=true">Admin login</a>
+      <div className="adminEntry">
+        <a className="adminLink" href="?admin=true">Admin login</a>
       </div>
     </div>
   );
