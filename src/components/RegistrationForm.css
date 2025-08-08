@@ -1,78 +1,135 @@
-/* RegistrationForm.css */
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #010d1a; /* Tmavé modré pozadí */
-  color: white;
+/* src/components/RegistrationForm.css */
+:root{
+  --bg:#041826;           /* tmavé pozadí stránky */
+  --panel:#071f2e;        /* karta */
+  --border:#10334b;
+  --text:#e6f2fb;
+  --muted:#a9c4d8;
+  --accent:#3db5ff;       /* Westgate modrá */
+  --accent-2:#8fd6ff;
+  --input:#0b2a40;
+  --input-border:#1c4760;
+  --shadow: 0 10px 35px rgba(0,0,0,.35);
 }
 
-.registration-form {
-  background-color: #011529; /* Tmavší modrá pro box */
-  max-width: 500px;
-  margin: 60px auto;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+*{ box-sizing:border-box; }
+html,body,#root{ height:100%; }
+body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',sans-serif; color:var(--text); background:var(--bg); }
+
+/* stránka */
+.page{
+  min-height:100%;
+  padding:40px 20px 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
 }
 
-.registration-form h2 {
-  text-align: center;
-  font-size: 26px;
-  margin-bottom: 10px;
-  color: white;
-  font-weight: bold;
+/* logo blok */
+.logoBlock{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  user-select:none;
+}
+.logoTop{
+  letter-spacing:.35rem;
+  font-weight:800;
+  padding:16px 36px;
+  border-radius:12px;
+  color:#eaf7ff;
+  background:linear-gradient(180deg,#7fd0ff,#58bdf8);
+  box-shadow: var(--shadow);
+}
+.logoSub{
+  letter-spacing:.6rem;
+  color:#7dd5ff;
+  font-weight:700;
 }
 
-.registration-form p {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 30px;
-  color: #ddd;
-  line-height: 1.4;
+/* karta/form */
+.card{
+  width:min(820px,92vw);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:32px 28px;
+  box-shadow: var(--shadow);
 }
 
-.registration-form input {
-  display: block;
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  border: none;
-  background-color: #042e5f; /* Tmavě modré pole */
-  color: white;
-  font-size: 16px;
+.title{
+  margin:0 0 6px 0;
+  font-size:28px;
+  text-align:center;
+}
+.subtitle{
+  margin:0 0 22px 0;
+  text-align:center;
+  color:var(--muted);
 }
 
-.registration-form input::placeholder {
-  color: #cbd6e2;
+label{
+  display:block;
+  margin:18px 0 8px;
+  color:var(--muted);
+  font-weight:600;
 }
 
-.registration-form button {
-  width: 100%;
-  padding: 12px;
-  background-color: #2d9cdb; /* Světlejší modrá */
-  color: white;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+input{
+  width:100%;
+  padding:16px 14px;
+  font-size:16px;
+  color:var(--text);
+  background:var(--input);
+  border:1px solid var(--input-border);
+  border-radius:12px;
+  outline:none;
+  transition:.2s border-color,.2s box-shadow;
+}
+input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(61,181,255,.25);
 }
 
-.registration-form button:hover {
-  background-color: #1b7cb8;
+.btn{
+  margin-top:22px;
+  width:100%;
+  padding:16px 18px;
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+  background:linear-gradient(180deg,#39b0ff,#1996ea);
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  transition:filter .15s, transform .02s;
 }
+.btn:hover{ filter:brightness(1.05); }
+.btn:active{ transform:translateY(1px); }
+.btn:disabled{ opacity:.6; cursor:not-allowed; }
 
-.footer {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 14px;
-  color: #aaa;
+.note{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:10px;
+  text-align:center;
+  font-weight:600;
 }
+.note.ok{ background:#0f3a22; color:#b8ffdc; border:1px solid #1c6f49; }
+.note.err{ background:#3a0f0f; color:#ffc9c9; border:1px solid #6f1c1c; }
 
-.footer img {
-  vertical-align: middle;
-  height: 24px;
-  margin-left: 5px;
+/* odkaz dole pro admin login */
+.adminEntry{
+  margin-top:6px;
 }
+.adminLink{
+  display:inline-block;
+  color:var(--accent);
+  text-decoration:none;
+  border:1px solid var(--accent);
+  padding:10px 16px;
+  border-radius:10px;
+}
+.adminLink:hover{ background:rgba(56,168,232,.12); }
