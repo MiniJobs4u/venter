@@ -1,82 +1,106 @@
-// src/components/RegistrationForm.jsx
-import React, { useState } from "react";
-import "./RegistrationForm.css";
+import { db } from "../firebase";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+// ...
+
+const initial = {
+  vehicleReg: "",
+  name: "",
+  contact: "",
+  company: "",
+  deliveryTo: "",
+};
 
 export default function RegistrationForm() {
-  const [registration, setRegistration] = useState("");
-  const [driverName, setDriverName] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [deliveryTo, setDeliveryTo] = useState("");
-  const [reason, setReason] = useState("");
+  const [form, setForm] = useState(initial);
+  const [saving, setSaving] = useState(false);
+  const [ok, setOk] = useState(false);
+  const [err, setErr] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // TODO: Implement saving to Firebase or other backend
-    console.log({
-      registration,
-      driverName,
-      contactNumber,
-      deliveryTo,
-      reason,
-    });
-
-    // Reset form after submission
-    setRegistration("");
-    setDriverName("");
-    setContactNumber("");
-    setDeliveryTo("");
-    setReason("");
+    setSaving(true);
+    setErr("");
+    try {
+      await addDoc(collection(db, "registrations"), {
+        vehicleReg: form.vehicleReg.trim(),
+        name: form.name.trim(),
+        contact: form.contact.trim(),
+        company: form.company.trim(),
+        deliveryTo: form.deliveryTo.trim(),
+        timeIn: serverTimestamp(), // ✅ klíčové pro řazení a zobrazení
+      });
+      setForm(initial);
+      setOk(true);
+      setTimeout(() => setOk(false), 2500);
+    } catch (e) {
+      console.error(e);
+      setErr("Saving failed. Try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
-    <div className="registration-form">
-      <h2>Westgate Oxford - Service Yard B</h2>
-      <p>
-        Out of hours access: Please call Control Room<br />
-        01865 263699
-      </p>
-      <form onSubmit={handleSubmit}>
+    <div className="reg-wrap">
+      {/* ...hlavička atd... */}
+
+      <form className="reg-card" onSubmit={handleSubmit}>
+        {/* vstupy – VŠECHNY mají name= dle fieldů výše */}
         <input
-          type="text"
+          name="vehicleReg"
+          value={form.vehicleReg}
+          onChange={handleChange}
           placeholder="Vehicle registration"
-          value={registration}
-          onChange={(e) => setRegistration(e.target.value)}
           required
         />
+
         <input
-          type="text"
-          placeholder="Driver’s name"
-          value={driverName}
-          onChange={(e) => setDriverName(e.target.value)}
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Driver's name"
           required
         />
+
         <input
-          type="tel"
+          name="contact"
+          value={form.contact}
+          onChange={handleChange}
           placeholder="Contact number"
-          value={contactNumber}
-          onChange={(e) => setContactNumber(e.target.value)}
           required
         />
+
         <input
-          type="text"
-          placeholder="Delivery to"
-          value={deliveryTo}
-          onChange={(e) => setDeliveryTo(e.target.value)}
+          name="company"
+          value={form.company}
+          onChange={handleChange}
+          placeholder="Delivery to / Company name"
           required
         />
+
         <input
-          type="text"
+          name="deliveryTo"
+          value={form.deliveryTo}
+          onChange={handleChange}
           placeholder="Reason for visit"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          required
         />
-        <button type="submit">Submit</button>
+
+        <button className="btn" disabled={saving}>
+          {saving ? "Saving…" : "Submit"}
+        </button>
+
+        {ok && <div className="note ok">Saved ✓</div>}
+        {err && <div className="note err">{err}</div>}
       </form>
 
-      <div className="footer">
-        Powered by <img src="/mitie-logo.png" alt="Mitie logo" />
+      {/* ✅ Admin přístup dole */}
+      <div className="admin-entry">
+        <a className="admin-link" href="?admin=true">Admin login</a>
       </div>
     </div>
   );
