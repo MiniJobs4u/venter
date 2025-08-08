@@ -1,27 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Register from "./components/Register";
-import AdminLogin from "./components/AdminLogin";
+// src/App.jsx
+import React from "react";
+import AdminPanel from "./components/AdminPanel";
+import RegistrationForm from "./components/RegistrationForm";
 
-function App() {
-  const [isAdminView, setIsAdminView] = useState(false);
+export default function App() {
+  const params = new URLSearchParams(window.location.search);
+  const isAdmin = params.get("admin") === "true";
 
-  // Volitelně: přepnutí podle URL parametru
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("admin") === "true") {
-      setIsAdminView(true);
-    }
-  }, []);
-
-  return (
-    <div style={{ textAlign: "center", padding: "1rem" }}>
-      <button onClick={() => setIsAdminView(!isAdminView)} style={{ marginBottom: "1rem" }}>
-        {isAdminView ? "Switch to Registration" : "Switch to Admin Login"}
-      </button>
-
-      {isAdminView ? <AdminLogin /> : <Register />}
-    </div>
-  );
+  return isAdmin ? <AdminPanel /> : <RegistrationForm />;
 }
-
-export default App;
