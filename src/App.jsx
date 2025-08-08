@@ -1,7 +1,8 @@
-import React from "react";
-import AdminPanel from "./components/AdminPanel.jsx";
-import RegistrationForm from "./components/RegistrationForm.jsx";
-
+// src/App.jsx
 export default function App() {
-  // … zbytek beze změny
+  return (
+    <div style={{ color: "#fff", background: "#001623", minHeight: "100vh", display: "grid", placeItems: "center" }}>
+      <h1>Venter is alive ✅</h1>
+    </div>
+  );
 }
