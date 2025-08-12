@@ -6,120 +6,129 @@
   --text:#e9f3ff;
   --muted:#9ec2e0;
   --accent:#4bb3ff;
-  --accent-2:#3a90ff;
+  --accent-2:#2e86ff;
 }
 
-.reg-root{
+.admin-root{
   min-height:100vh;
   background:var(--bg);
   color:var(--text);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:32px 16px 40px;
+  padding:24px 16px 40px;
 }
 
-/* WESTGATE badge */
 .branding{
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
-.brand-badge{
-  width:min(560px, 90vw);
+.brand-badge.small{
+  width:min(420px, 92vw);
   margin-inline:auto;
   background:linear-gradient(180deg, #69c6f7 0%, #88d4ff 100%);
   border-radius:6px;
-  padding:18px 24px;
+  padding:12px 18px;
   box-shadow:0 10px 25px rgba(0,0,0,.25) inset,
              0 4px 20px rgba(0,0,0,.25);
 }
-.brand-title{
-  font-size:44px;
+.brand-title.small{
+  font-size:34px;
   letter-spacing:.18em;
   text-align:center;
   color:#0a3047;
   font-weight:800;
 }
-.brand-sub{
-  margin-top:14px;
+.brand-sub.small{
+  margin-top:10px;
   letter-spacing:.35em;
   color:#6ed0ff;
-  font-size:26px;
+  font-size:20px;
 }
 
-/* Panel */
-.card{
-  width:min(820px, 92vw);
+/* card */
+.admin-card{
+  width:min(1200px, 95vw);
+  margin-inline:auto;
   background:linear-gradient(180deg, var(--panel) 0%, #091c2a 100%);
   border:1px solid var(--border);
   border-radius:12px;
-  padding:28px 28px 24px;
+  padding:18px;
   box-shadow:0 10px 40px rgba(0,0,0,.35);
 }
 
-/* Form */
-.form{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:14px;
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 6px 12px;
 }
-.lbl{
-  font-size:22px;
-  color:#d9ebff;
-  margin-top:6px;
+.title{
+  font-size:28px;
+  font-weight:700;
 }
-.inp{
-  height:56px;
+.grow{ flex:1; }
+
+.filters{
+  display:flex;
+  align-items:end;
+  gap:10px;
+}
+.filters label{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  color:#cfe7ff;
+  font-size:13px;
+}
+.filters input[type="date"]{
+  height:40px;
   border-radius:8px;
-  outline:none;
   border:1px solid #123852;
   background:linear-gradient(180deg, #0b2640, #092135);
-  color:var(--text);
-  padding:0 16px;
-  font-size:18px;
-  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,
-             0 5px 12px rgba(0,0,0,.25) inset;
+  color:#e9f3ff;
+  padding:0 8px;
 }
-.inp::placeholder{ color:#7face0; }
-
 .btn{
-  margin-top:10px;
-  height:56px;
+  height:40px;
+  padding:0 14px;
   border-radius:10px;
   border:0;
   background:linear-gradient(180deg, #52b3ff 0%, #2e86ff 100%);
-  color:white;
-  font-size:22px;
+  color:#fff;
   font-weight:700;
-  letter-spacing:.03em;
   cursor:pointer;
-  box-shadow:0 8px 20px rgba(53,140,255,.4);
 }
-.btn:disabled{ opacity:.6; cursor:default; }
+.btn.ghost{
+  background:#14344b;
+  border:1px solid #1e4c6e;
+  color:#c8e6ff;
+}
 
-.ok{ margin-top:8px; color:#7de897; }
-
-/* Footer */
-.footer{
-  width: min(820px, 92vw);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:18px auto 0;
-  color:#a8cfe9;
-  font-size:16px;
+/* table */
+.table-wrap{
+  overflow:auto;
+  max-height:70vh;
+  margin-top:8px;
+  border-radius:10px;
+  border:1px solid #10324a;
 }
-.powered .mitie{
-  margin-left:6px;
-  background:linear-gradient(90deg, #ff8a66, #ff4fd6);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  font-weight:800;
+.tbl{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
 }
-.admin-link{
-  color:#7fc7ff;
-  text-decoration:none;
-  font-weight:600;
+.tbl thead th{
+  position:sticky;
+  top:0;
+  background:#0c2940;
+  color:#cfe7ff;
+  text-align:left;
+  padding:12px 14px;
+  font-weight:700;
+  border-bottom:1px solid #10324a;
 }
-.admin-link:hover{ text-decoration:underline; }
+.tbl tbody td{
+  padding:12px 14px;
+  border-bottom:1px solid #0f2b3e;
+}
+.tbl tbody tr:nth-child(even) td{
+  background:#0b2437;
+}
