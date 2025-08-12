@@ -1,18 +1,16 @@
-// Import Firebase
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Your Firebase configuration (převzato z tvého dřívějšího zadání)
 const firebaseConfig = {
-  apiKey: "AIzaSyC_o0KdjvVu0lCYzMXIu-eTiIb5T9fWN6A",
-  authDomain: "ventr-def25.firebaseapp.com",
-  projectId: "ventr-def25",
-  storageBucket: "ventr-def25.appspot.com",
-  messagingSenderId: "503251907534",
-  appId: "1:503251907534:web:3e975349ca0243640bb19f",
-  measurementId: "G-LTFX9N9RJ0"
+  apiKey: import.meta.env.VITE_FB_API_KEY,
+  authDomain: import.meta.env.VITE_FB_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FB_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FB_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FB_MSG_SENDER_ID,
+  appId: import.meta.env.VITE_FB_APP_ID,
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 export const db = getFirestore(app);
