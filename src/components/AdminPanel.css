@@ -1,69 +1,125 @@
-/* src/components/AdminPanel.css */
 :root{
-  --bg:#041826;
-  --panel:#071f2e;
-  --border:#10334b;
-  --text:#e6f2fb;
-  --muted:#a9c4d8;
-  --accent:#3db5ff;
-  --input:#0b2a40;
+  --bg:#061825;
+  --panel:#0b2233;
+  --panel-2:#0e2d42;
+  --border:#112c3e;
+  --text:#e9f3ff;
+  --muted:#9ec2e0;
+  --accent:#4bb3ff;
+  --accent-2:#3a90ff;
 }
 
-.page.admin{
+.reg-root{
   min-height:100vh;
-  padding:40px 20px 28px;
   background:var(--bg);
   color:var(--text);
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:24px;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+  padding:32px 16px 40px;
 }
 
-/* logo shodné s registrací */
-.logoBlock{ display:flex; flex-direction:column; align-items:center; gap:12px; }
-.logoTop{
-  letter-spacing:.35rem;font-weight:800;padding:16px 36px;border-radius:12px;
-  color:#eaf7ff;background:linear-gradient(180deg,#7fd0ff,#58bdf8);
-  box-shadow:0 10px 35px rgba(0,0,0,.35);
+/* WESTGATE badge */
+.branding{
+  text-align:center;
+  margin-bottom:20px;
 }
-.logoSub{ letter-spacing:.6rem;color:#7dd5ff;font-weight:700; }
+.brand-badge{
+  width:min(560px, 90vw);
+  margin-inline:auto;
+  background:linear-gradient(180deg, #69c6f7 0%, #88d4ff 100%);
+  border-radius:6px;
+  padding:18px 24px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25) inset,
+             0 4px 20px rgba(0,0,0,.25);
+}
+.brand-title{
+  font-size:44px;
+  letter-spacing:.18em;
+  text-align:center;
+  color:#0a3047;
+  font-weight:800;
+}
+.brand-sub{
+  margin-top:14px;
+  letter-spacing:.35em;
+  color:#6ed0ff;
+  font-size:26px;
+}
 
-.panel{
-  width:min(1100px,95vw);
-  background:var(--panel);
+/* Panel */
+.card{
+  width:min(820px, 92vw);
+  background:linear-gradient(180deg, var(--panel) 0%, #091c2a 100%);
   border:1px solid var(--border);
-  border-radius:18px;
-  box-shadow:0 10px 35px rgba(0,0,0,.35);
+  border-radius:12px;
+  padding:28px 28px 24px;
+  box-shadow:0 10px 40px rgba(0,0,0,.35);
 }
 
-.panelHead{
-  padding:18px 18px 0;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
+/* Form */
+.form{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
 }
-.panelHead h1{ margin:0; font-size:28px; }
-.actions{ display:flex; align-items:center; gap:10px; }
-.dates{ display:flex; align-items:center; gap:8px; }
-.dates label{ color:var(--muted); font-size:13px; }
-.dates input{
-  background:var(--input); border:1px solid #1c4760; color:var(--text);
-  padding:8px 10px; border-radius:8px; outline:none;
+.lbl{
+  font-size:22px;
+  color:#d9ebff;
+  margin-top:6px;
 }
+.inp{
+  height:56px;
+  border-radius:8px;
+  outline:none;
+  border:1px solid #123852;
+  background:linear-gradient(180deg, #0b2640, #092135);
+  color:var(--text);
+  padding:0 16px;
+  font-size:18px;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,
+             0 5px 12px rgba(0,0,0,.25) inset;
+}
+.inp::placeholder{ color:#7face0; }
 
 .btn{
-  padding:10px 14px; border-radius:10px; cursor:pointer; border:none;
-  color:#fff; background:linear-gradient(180deg,#39b0ff,#1996ea);
+  margin-top:10px;
+  height:56px;
+  border-radius:10px;
+  border:0;
+  background:linear-gradient(180deg, #52b3ff 0%, #2e86ff 100%);
+  color:white;
+  font-size:22px;
   font-weight:700;
+  letter-spacing:.03em;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(53,140,255,.4);
 }
-.btn.ghost{
-  background:transparent; border:1px solid var(--accent); color:var(--accent);
-}
+.btn:disabled{ opacity:.6; cursor:default; }
 
-.tableWrap{ padding:16px 18px 22px; }
-table{ width:100%; border-collapse:collapse; }
-th,td{ text-align:left; padding:12px 10px; border-bottom:1px solid #0e3046; }
-th{ color:#bfe6ff; font-weight:800; letter-spacing:.02rem; }
-td{ color:var(--text); }
-tbody tr:hover{ background:#0b2639; }
-.muted{ color:var(--muted); text-align:center; }
+.ok{ margin-top:8px; color:#7de897; }
+
+/* Footer */
+.footer{
+  width: min(820px, 92vw);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:18px auto 0;
+  color:#a8cfe9;
+  font-size:16px;
+}
+.powered .mitie{
+  margin-left:6px;
+  background:linear-gradient(90deg, #ff8a66, #ff4fd6);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  font-weight:800;
+}
+.admin-link{
+  color:#7fc7ff;
+  text-decoration:none;
+  font-weight:600;
+}
+.admin-link:hover{ text-decoration:underline; }
