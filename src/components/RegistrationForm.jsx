@@ -1,120 +1,123 @@
-// src/components/RegistrationForm.jsx
 import React, { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { Link } from "react-router-dom";
 import "./RegistrationForm.css";
 
-const initial = {
-  vehicleReg: "",
-  name: "",
-  contact: "",
-  company: "",
-  deliveryTo: "",
-};
-
 export default function RegistrationForm() {
-  const [form, setForm] = useState(initial);
-  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    vehicleReg: "",
+    name: "",
+    contact: "",
+    deliveryTo: "",
+    reason: "",
+  });
+  const [loading, setLoading] = useState(false);
   const [ok, setOk] = useState(false);
-  const [err, setErr] = useState("");
+  const colRef = collection(db, "registrations");
 
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+  const handleChange = (e) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setOk(false);
   };
 
-  const onSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSaving(true);
-    setErr("");
+    if (!form.vehicleReg || !form.name || !form.contact) return;
+    setLoading(true);
     try {
-      await addDoc(collection(db, "registrations"), {
-        vehicleReg: form.vehicleReg.trim(),
-        name: form.name.trim(),
-        contact: form.contact.trim(),
-        company: form.company.trim(),
-        deliveryTo: form.deliveryTo.trim(),
+      await addDoc(colRef, {
+        ...form,
         timeIn: serverTimestamp(),
+        timeOut: null,
       });
-      setForm(initial);
+      setForm({
+        vehicleReg: "",
+        name: "",
+        contact: "",
+        deliveryTo: "",
+        reason: "",
+      });
       setOk(true);
-      setTimeout(() => setOk(false), 2500);
-    } catch (error) {
-      console.error(error);
-      setErr("Saving failed. Please try again.");
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("Saving failed.");
     } finally {
-      setSaving(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="page">
-      <div className="logoBlock">
-        <div className="logoTop">WESTGATE</div>
-        <div className="logoSub">OXFORD</div>
-      </div>
+    <div className="reg-root">
+      <header className="branding">
+        <div className="brand-badge">
+          <div className="brand-title">WESTGATE</div>
+        </div>
+        <div className="brand-sub">OXFORD</div>
+      </header>
 
-      <form className="card" onSubmit={onSubmit}>
-        <h1 className="title">Westgate Oxford - Service Yard B</h1>
-        <p className="subtitle">
-          Out of hours access: Please call Control Room 01865 263699
-        </p>
+      <main className="card">
+        <form onSubmit={handleSubmit} className="form">
+          <label className="lbl">Vehicle registration</label>
+          <input
+            name="vehicleReg"
+            value={form.vehicleReg}
+            onChange={handleChange}
+            className="inp"
+            placeholder=""
+            required
+          />
 
-        <label>Vehicle registration</label>
-        <input
-          name="vehicleReg"
-          value={form.vehicleReg}
-          onChange={onChange}
-          placeholder="Vehicle registration"
-          required
-        />
+          <label className="lbl">Driver’s name</label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            className="inp"
+            required
+          />
 
-        <label>Driver’s name</label>
-        <input
-          name="name"
-          value={form.name}
-          onChange={onChange}
-          placeholder="Driver's name"
-          required
-        />
+          <label className="lbl">Contact number</label>
+          <input
+            name="contact"
+            value={form.contact}
+            onChange={handleChange}
+            className="inp"
+            required
+          />
 
-        <label>Contact number</label>
-        <input
-          name="contact"
-          value={form.contact}
-          onChange={onChange}
-          placeholder="Contact number"
-          required
-        />
+          <label className="lbl">Delivery to</label>
+          <input
+            name="deliveryTo"
+            value={form.deliveryTo}
+            onChange={handleChange}
+            className="inp"
+          />
 
-        <label>Delivery to</label>
-        <input
-          name="company"
-          value={form.company}
-          onChange={onChange}
-          placeholder="Delivery to"
-          required
-        />
+          <label className="lbl">Reason for visit</label>
+          <input
+            name="reason"
+            value={form.reason}
+            onChange={handleChange}
+            className="inp"
+          />
 
-        <label>Reason for visit</label>
-        <input
-          name="deliveryTo"
-          value={form.deliveryTo}
-          onChange={onChange}
-          placeholder="Reason for visit"
-        />
+          <button className="btn" type="submit" disabled={loading}>
+            {loading ? "Saving..." : "Submit"}
+          </button>
 
-        <button className="btn" disabled={saving}>
-          {saving ? "Saving…" : "Submit"}
-        </button>
+          {ok && <div className="ok">Thank you. Entry recorded.</div>}
+        </form>
+      </main>
 
-        {ok && <div className="note ok">Saved ✓</div>}
-        {err && <div className="note err">{err}</div>}
-      </form>
-
-      <div className="adminEntry">
-        <a className="adminLink" href="?admin=true">Admin login</a>
-      </div>
+      <footer className="footer">
+        <div className="powered">
+          Powered by <span className="mitie">mitie</span>
+        </div>
+        <Link to="/admin-login" className="admin-link">
+          Admin login
+        </Link>
+      </footer>
     </div>
   );
 }
